@@ -57,3 +57,20 @@ export const getMemoizedNumItemsSelector = createSelector(
     return numItems;
   }
 );
+
+export const getTotalPrice = createSelector(
+  // As long as this parts of the state are the same...
+  (state: RootState) => state.cart.items,
+  (state: RootState) => state.products.products,
+
+  // ...this function will only be called once
+  (items, products) => {
+    let total = 0;
+
+    for (let id in items) {
+      total += products[id].price * items[id];
+    }
+
+    return total.toFixed(2);
+  }
+);
