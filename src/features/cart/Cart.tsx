@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import styles from "./Cart.module.css";
@@ -8,6 +9,7 @@ export function Cart() {
   const { products } = useAppSelector((state) => state.products);
   const { items } = useAppSelector((state) => state.cart);
   const totalPrice = useAppSelector(getTotalPrice);
+  const checkoutState = useAppSelector((state) => state.cart.checkouState);
 
   const onQuantityChanged = (
     e: React.FocusEvent<HTMLInputElement>,
@@ -17,10 +19,17 @@ export function Cart() {
     dispatch(updateQuantity({ id, quantity }));
   };
 
+  const tableClasses = classNames({
+    // These are generated and we do not know what these classes are going to be until build time
+    [styles.table]: true,
+    [styles.checkoutError]: checkoutState === "ERROR",
+    [styles.checkoutLoading]: checkoutState === "LOADING",
+  });
+
   return (
     <main className="page">
       <h1>Shopping Cart</h1>
-      <table className={styles.table}>
+      <table className={tableClasses}>
         <thead>
           <tr>
             <th>Product</th>
