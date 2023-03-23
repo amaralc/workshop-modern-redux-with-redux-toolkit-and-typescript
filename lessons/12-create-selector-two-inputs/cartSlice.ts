@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
-import type { RootState } from "../../app/store";
+import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../../app/store";
 
 export interface CartState {
   items: { [productID: string]: number };
@@ -46,6 +46,10 @@ export const getMemoizedNumItems = createSelector(
     return numItems;
   }
 );
+
+// If you want to explicitly type your selectors, you can do the following, but it's not necessary.
+// export const getTotalPrice = createSelector<RootState, any, any, string>(
+// In the above example, the first type is the type of the state, the second and third types are the type of the first and second selectors, and the last type is the return type
 
 export const getTotalPrice = createSelector(
   (state: RootState) => state.cart.items,
