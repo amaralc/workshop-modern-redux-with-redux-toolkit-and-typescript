@@ -9,7 +9,7 @@ export function Cart() {
   const { products } = useAppSelector((state) => state.products);
   const { items } = useAppSelector((state) => state.cart);
   const totalPrice = useAppSelector(getTotalPrice);
-  const checkoutState = useAppSelector((state) => state.cart.checkouState);
+  const checkoutState = useAppSelector((state) => state.cart.checkoutState);
 
   const onQuantityChanged = (
     e: React.FocusEvent<HTMLInputElement>,
@@ -17,6 +17,11 @@ export function Cart() {
   ) => {
     const quantity = Number(e.target.value) || 0;
     dispatch(updateQuantity({ id, quantity }));
+  };
+
+  const onCheckout = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch({ type: "cart/checkout/pending" });
   };
 
   const tableClasses = classNames({
@@ -71,7 +76,7 @@ export function Cart() {
           </tr>
         </tfoot>
       </table>
-      <form>
+      <form onSubmit={onCheckout}>
         <button className={styles.button} type="submit">
           Checkout
         </button>

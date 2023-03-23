@@ -7,12 +7,12 @@ export interface CartState {
   items: {
     [productId: string]: number;
   };
-  checkouState: CheckoutState;
+  checkoutState: CheckoutState;
 }
 
 const initialState: CartState = {
   items: {},
-  checkouState: "READY",
+  checkoutState: "READY",
 };
 
 const cartSlice = createSlice({
@@ -38,6 +38,11 @@ const cartSlice = createSlice({
       const { id, quantity } = action.payload;
       state.items[id] = quantity;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase("cart/checkout/pending", (state) => {
+      state.checkoutState = "LOADING";
+    });
   },
 });
 
