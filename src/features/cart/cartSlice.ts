@@ -24,10 +24,13 @@ const cartSlice = createSlice({
         state.items[id] = 1;
       }
     },
+    removeFromCart: (state, action: PayloadAction<string>) => {
+      delete state.items[action.payload];
+    },
   },
 });
 
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, removeFromCart } = cartSlice.actions;
 export const cartReducer = cartSlice.reducer;
 
 export const getNumItemsSelector = (state: RootState) => {
