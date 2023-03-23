@@ -4,7 +4,7 @@ import {
   createSlice,
   PayloadAction,
 } from "@reduxjs/toolkit";
-import { CartItems, checkout } from "../../app/api";
+import { checkout } from "../../app/api";
 import { RootState } from "../../app/store";
 
 type CheckoutState = "LOADING" | "READY" | "ERROR";
@@ -23,9 +23,18 @@ const initialState: CartState = {
   errorMessage: "",
 };
 
+// // This is the same as below, but fully typing the createAsyncThunk function
+// export const checkoutCart = createAsyncThunk<
+//   { success: boolean }, // Type of checkout response
+//   undefined, // First parameter of async function
+//   { state: RootState } // Context object
+// >
+
 export const checkoutCart = createAsyncThunk(
   "cart/checkout",
-  async (items: CartItems) => {
+  async (_, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState; // This is less verbose than the above, but we are forcing the type
+    const items = state.cart.items;
     const response = await checkout(items);
     return response;
   }
