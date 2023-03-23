@@ -1,14 +1,18 @@
 import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
+type CheckoutState = "LOADING" | "READY" | "ERROR";
+
 export interface CartState {
   items: {
     [productId: string]: number;
   };
+  checkouState: CheckoutState;
 }
 
 const initialState: CartState = {
   items: {},
+  checkouState: "READY",
 };
 
 const cartSlice = createSlice({
