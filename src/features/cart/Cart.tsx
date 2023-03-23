@@ -3,7 +3,7 @@ import React from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import styles from "./Cart.module.css";
 import {
-  checkout,
+  checkoutCart,
   getTotalPrice,
   removeFromCart,
   updateQuantity,
@@ -26,7 +26,7 @@ export function Cart() {
 
   const onCheckout = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(checkout());
+    dispatch(checkoutCart(items));
   };
 
   const tableClasses = classNames({
