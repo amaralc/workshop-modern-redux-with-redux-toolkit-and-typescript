@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
 export interface CartState {
@@ -31,6 +31,7 @@ export const { addToCart } = cartSlice.actions;
 export const cartReducer = cartSlice.reducer;
 
 export const getNumItemsSelector = (state: RootState) => {
+  console.log("Calling num items");
   let numItems = 0;
 
   for (let id in state.cart.items) {
@@ -39,3 +40,20 @@ export const getNumItemsSelector = (state: RootState) => {
 
   return numItems;
 };
+
+export const getMemoizedNumItemsSelector = createSelector(
+  // As long as this part of the state is the same...
+  (state: RootState) => state.cart.items,
+
+  // ...this function will only be called once
+  (items) => {
+    console.log("Getting memoized num items");
+    let numItems = 0;
+
+    for (let id in items) {
+      numItems += items[id];
+    }
+
+    return numItems;
+  }
+);
